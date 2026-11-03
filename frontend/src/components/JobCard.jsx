@@ -1,6 +1,6 @@
 function JobCard({ title, company }) {
   return (
-    <div>
+    <div className="job-card">
       <h2>{title}</h2>
       <p>{company}</p>
     </div>
