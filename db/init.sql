@@ -27,3 +27,11 @@ CREATE TABLE job_applications (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
 );
+
+INSERT INTO users (first_name, last_name) VALUES ('Lydia', 'Test');
+
+INSERT INTO jobs (external_id, title, company, location, salary, url)
+VALUES
+  ('test-1', 'Junior Developer', 'Tech Corp', 'Shrewsbury', '30000', 'https://example.com/1'),
+  ('test-2', 'Web Developer', 'Example Co', 'Telford', '35000', 'https://example.com/2'),
+  ('test-3', 'Software Engineer', 'Techify', 'Birmingham', '40000', 'https://example.com/3');
