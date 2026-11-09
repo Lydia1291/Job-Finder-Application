@@ -18,7 +18,7 @@ I am going to be creating an application that allows me to find jobs on the inte
 - **Back end:** PHP (REST API), HTML, CSS
 - **Database:** MySQL
 - **Tools:** Docker, Git
-- **External APIS** Adzuna API (for the job search)
+- **External APIS** Adzuna API (for the job search) maybe??
 
 
 ## Why?

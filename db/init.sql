@@ -1,3 +1,8 @@
+// This file is what creates my database
+// It creates three tables: users, jobs, and job_applications.
+
+
+// The users table stores information about the users of the application, including their first and last names.
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
@@ -5,6 +10,9 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+// The jobs table stores information about the jobs that are available,
+// including their title, company, location, salary, and description.
 CREATE TABLE jobs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   external_id VARCHAR(100) NOT NULL UNIQUE,
@@ -17,6 +25,9 @@ CREATE TABLE jobs (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+// The job_applications table stores information about the jobs that users have saved or applied to.
+// It has a composite primary key of user_id and job_id, which means that each user can only have one entry for each job.
 CREATE TABLE job_applications (
   user_id INT NOT NULL,
   job_id INT NOT NULL,
@@ -28,8 +39,11 @@ CREATE TABLE job_applications (
   FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
 );
 
+// Insert a test user into the users table
+// Later on, this will be replaced with a real user login system.
 INSERT INTO users (first_name, last_name) VALUES ('Lydia', 'Test');
 
+// Insert some test jobs into the jobs table
 INSERT INTO jobs (external_id, title, company, location, salary, url)
 VALUES
   ('test-1', 'Junior Developer', 'Tech Corp', 'Shrewsbury', '30000', 'https://example.com/1'),

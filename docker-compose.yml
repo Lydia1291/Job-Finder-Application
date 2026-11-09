@@ -1,28 +1,67 @@
+#Creates the containers that will make up the application, including the API and database containers. 
+# It also sets up the necessary environment variables (PHP and DB) and volumes for the database.
 services:
+
+  # MY BACKEND CREATED WITH PHP
+  # PHP container that runs the backend API for the job finder application.
+  # It is built from the Dockerfile in the ./api directory and exposes port 8080 on the host machine. 
+  # It also mounts the ./api directory as a volume to allow for live code changes.
+  # The API container depends on the db container and uses environment variables to connect to the database.
   api:
+
+    # Builds container
     build: ./api
+
+    # Maps port 8080 on the host to port 80 in the container
     ports:
       - "8080:80"
+
+    # Mirrors the ./api folder onto the host (to /var/www/html) in the container for live code changes
     volumes:
       - ./api:/var/www/html
+
+    # Starts the db container before starting the api container
     depends_on:
       - db
+
+    # This means that the api container will wait for the db container to be ready before starting.
     environment:
+      # DB_HOST is the hostname of the database container (db)
       DB_HOST: db
+      # DB_NAME is the name of the database to connect to (jobfinder)
       DB_NAME: jobfinder
+      # The username and password for the database connection (jobfinder/pass)
       DB_USER: jobfinder
       DB_PASS: pass
 
+  # MYSQL DATABASE
+  # MySQL container that runs the database for the job finder application.
   db:
+
+    # Uses the official MySQL 8.4 image from Docker Hub
     image: mysql:8.4
+
+    # Sets the root password, database name, username, and password for the database
     environment:
+
+      # The difference between API environment and DB environment is that the API environment variables are used by the API container to connect to the database, 
+      # while the DB environment variables are used by the MySQL container to set up the database.
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: jobfinder
       MYSQL_USER: jobfinder
       MYSQL_PASSWORD: pass
+
+    # Maps port 3306 on the host to port 3306 in the container
     volumes:
+
+    # Maps the db_data volume to /var/lib/mysql in the container to persist the database data
+    # It does this because the MySQL container stores its data in /var/lib/mysql, and by mapping it to a volume,
+    # the data will be persisted even if the container is removed or recreated.
       - db_data:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
+# A volume is storage space that is managed by Docker and can be shared between containers. 
+# In this case, the db_data volume is used to store the MySQL database data so that it is not lost when the db container is stopped or removed.
+# So to reset the DB, we have to use docker compose down -v to remove the volume and then docker compose up to recreate it.
 volumes:
   db_data:
