@@ -43,6 +43,7 @@ function JobsPage() {
   return (
     <div>
       <h1>Job Tracker</h1>
+      <p> Here, you can see the jobs within the database </p>
       {error && <p>{error}</p>}
       {Array.isArray(jobs) &&
         jobs.map((job) => (
@@ -55,6 +56,7 @@ function JobsPage() {
             onToggleSave={() => toggleSave(job)}
           />
         ))}
+       <p> Eventually, there will be a search bar here </p>
     </div>
   );
 }
