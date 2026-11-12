@@ -1,17 +1,14 @@
+<?php
 // This file is the backend API endpoint for saving or unsaving a job application.
 // It receives a JSON payload with the job_id and saved status, and updates the database accordingly.
 // It uses PDO for database interaction and handles errors gracefully.
-
-<?php
 require "cors.php";
 require "db.php";
 
 // React sends the data as JSON in the request body, so we need to read it and decode it into a PHP array.
-// PHP://input is the raw body, file_get_contents reads it as text and json_decode converts it into a PHP array.
 // e.g. of what arrives -> {"job_id": 123, "saved": true} 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// ?? means "use this value on the left if it exists, otherwise use the right value".
 $jobId = (int) ($data['job_id'] ?? 0);
 $saved = (bool) ($data['saved'] ?? false);
 

@@ -1,8 +1,7 @@
+<?php
 // This file is the API endpoint for fetching jobs from the database. 
 // It connects to the database, retrieves the jobs, and returns them as a JSON response. 
 // It also checks if the user has saved any of the jobs and includes that information in the response.
-
-<?php
 // Include the CORS and database connection files
 require "cors.php";
 require "db.php";
@@ -36,13 +35,11 @@ try {
 
     // Convert the saved field to a boolean for each job (saved or not saved)
     foreach ($rows as &$row) {
-        // The saved field is returned as 0 or 1 from the database, but we want to return it as a boolean (true or false) in the JSON response.
         $row['saved'] = (bool) $row['saved'];
     }
-    // Return the jobs as a JSON response
+
     echo json_encode($rows);
 
-// If there is an error connecting to the database or fetching the jobs, return a 500 error with a message
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['error' => 'Could not load jobs']);
